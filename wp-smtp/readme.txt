@@ -3,8 +3,8 @@ Contributors: solidwp, jack-kitterhing
 Donate link: https://solidwp.com/email
 Tags: wordpress smtp, email, email log, smtp
 Requires at least: 6.4
-Tested up to: 6.5.2
-Stable tag: 2.0.0
+Tested up to: 6.6.2
+Stable tag: 2.1.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -22,6 +22,7 @@ Solid Mail makes connecting to many popular SMTP services straightforward and cl
 * MailGun
 * Brevo (formally Sendinblue)
 * Amazon SES
+* Postmark
 * Manual connection (connect to any ESP)
 
 [Learn more about transactional email services for your WordPress website here](https://solidwp.com/blog/alternatives-for-wordpress-transactional-emails/).
@@ -124,6 +125,15 @@ Now your website email deliverability is SOLID with Solid Mail!
 3. See a comprehensive log of all emails sent from your WordPress website at a glance
 
 == Changelog ==
+
+= [2.1.0] 2024-10-09 =
+
+* Feature - Postmark Integration: You can now use Postmark as an email service provider, giving you more flexibility in how you send emails.
+* Feature - Bulk Delete Logs: It's now possible to bulk delete email logs, making log management much more efficient.
+* Fix - Previously, "No Logs" displayed even when records existed. The message 'No logs found' now only appears when there are no logs in the database.
+* Fix - Search Functionality: We've fixed an issue where the search would not trigger upon pressing Enter.
+* Fix - Auto-Enable Email Provider Connections: The setting to add an email provider connection is now automatically enabled for smoother setup.
+* Fix - Connection Saved Confirmation: A confirmation message now appears when an email provider connection is saved, eliminating any guesswork.
 
 = [2.0.0] 2024-09-17 =
 

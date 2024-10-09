@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'solidwp/mail',
-        'pretty_version' => 'v2.0.0',
-        'version' => '2.0.0.0',
-        'reference' => '99491af9cba3ada04778e83ef2cc5a8892d9726e',
+        'pretty_version' => 'v2.1.0',
+        'version' => '2.1.0.0',
+        'reference' => 'c5e89d62cbf8a11b10875854b72c53d9a9dd3bab',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -29,9 +29,9 @@
             'dev_requirement' => false,
         ),
         'solidwp/mail' => array(
-            'pretty_version' => 'v2.0.0',
-            'version' => '2.0.0.0',
-            'reference' => '99491af9cba3ada04778e83ef2cc5a8892d9726e',
+            'pretty_version' => 'v2.1.0',
+            'version' => '2.1.0.0',
+            'reference' => 'c5e89d62cbf8a11b10875854b72c53d9a9dd3bab',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),

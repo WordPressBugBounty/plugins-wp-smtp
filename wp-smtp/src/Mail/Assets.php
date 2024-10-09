@@ -4,6 +4,7 @@ namespace SolidWP\Mail;
 
 use SolidWP\Mail\Admin\SettingsScreen;
 use SolidWP\Mail\Contracts\Service_Provider;
+use SolidWP\Mail\Repository\LogsRepository;
 use SolidWP\Mail\Repository\ProvidersRepository;
 use SolidWP\Mail\StellarWP\Assets\Asset;
 
@@ -93,6 +94,7 @@ class Assets extends Service_Provider {
 		     ->register();
 
 		$logs_asset_data = require WPSMTP_ASSETS_PATH . 'js/logs.asset.php';
+		$logs_repository  = $this->container->get( LogsRepository::class );
 		Asset::add( 'solidwp-mail-logs', 'js/logs.js', $logs_asset_data['version'] )
 		     ->in_footer()
 		     ->set_dependencies( function () use ( $logs_asset_data ) {
@@ -107,7 +109,11 @@ class Assets extends Service_Provider {
 					 return is_admin() && 'solidwp-mail-logs' === $page;
 				 }
 		     )
-		     ->register();
+			->add_localize_script( 'SolidWPMail', [
+				'first_page_logs' => $logs_repository->get_email_logs(),
+				'total_pages'     => ceil( $logs_repository->count_all_logs() / $this->container->get( 'LOGS_PER_PAGE' ) )
+			] )
+			->register();
 
 		// todo should create a loop for this.
 		$settings_asset_data = require WPSMTP_ASSETS_PATH . 'js/settings.asset.php';

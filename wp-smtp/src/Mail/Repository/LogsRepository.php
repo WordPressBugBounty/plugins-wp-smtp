@@ -50,12 +50,12 @@ class LogsRepository {
 	 *
 	 * @return array The array of email logs.
 	 */
-	public function get_email_logs( array $params ): array {
+	public function get_email_logs( array $params = [] ): array {
 		$page        = isset( $params['page'] ) ? max( $params['page'], 1 ) : 1;
 		$search_term = isset( $params['search_term'] ) ? trim( $params['search_term'] ) : '';
 		$orderby     = $params['orderby'] ?? 'timestamp';
 		$order       = $params['order'] ?? 'desc';
-		$per_page    = $params['per_page'] ?? 20;
+		$per_page    = $params['per_page'] ?? App::get( 'LOGS_PER_PAGE' );
 
 		$offset = ( $page - 1 ) * $per_page;
 		global $wpdb;
@@ -172,14 +172,29 @@ class LogsRepository {
 	/**
 	 * Counts all email log records.
 	 *
+	 * @param string $search_term Optional. The search term used to filter email log records.
+	 *
 	 * @return int Total number of email log records.
 	 */
-	public function count_all_logs(): int {
+	public function count_all_logs( string $search_term = '' ): int {
 		global $wpdb;
+
+		$search_sql  = '';
+		$search_term = trim( $search_term );
+
+		if ( ! empty( $search_term ) ) {
+			$search_term = '%' . $wpdb->esc_like( $search_term ) . '%';
+			$search_sql  = $wpdb->prepare(
+				'WHERE `subject` LIKE %s OR `message` LIKE %s OR `to` LIKE %s',
+				$search_term,
+				$search_term,
+				$search_term
+			);
+		}
 
 		return absint(
 			$wpdb->get_var(
-				"SELECT COUNT(*) FROM {$this->table}"
+				"SELECT COUNT(*) FROM {$this->table} $search_sql"
 			)
 		);
 	}

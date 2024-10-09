@@ -60,6 +60,16 @@ class ConnectionService {
 		if ( $model->validation() ) {
 			$this->providers_repository->save( $model );
 
+			$is_active = filter_var( $data['is_active'] ?? false, FILTER_VALIDATE_BOOLEAN );
+
+			if ( $is_active ) {
+				// let make this active and turn other off.
+				$this->make_provider_active( $model->get_id() );
+			} else {
+				$model->set_is_active( $is_active );
+				$this->providers_repository->save( $model );
+			}
+
 			return true;
 		}
 

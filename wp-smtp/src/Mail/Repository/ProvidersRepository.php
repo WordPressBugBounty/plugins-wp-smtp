@@ -4,6 +4,7 @@ namespace SolidWP\Mail\Repository;
 
 use SolidWP\Mail\Connectors\ConnectorBrevo;
 use SolidWP\Mail\Connectors\ConnectorMailGun;
+use SolidWP\Mail\Connectors\ConnectorPostmark;
 use SolidWP\Mail\Connectors\ConnectorSendGrid;
 use SolidWP\Mail\Connectors\ConnectorSES;
 use SolidWP\Mail\Connectors\ConnectorSMTP;
@@ -144,6 +145,8 @@ class ProvidersRepository {
 				return new ConnectorSendGrid( $data );
 			case 'amazon_ses':
 				return new ConnectorSES( $data );
+			case 'postmark':
+				return new ConnectorPostmark( $data );
 			case 'other':
 				return new ConnectorSMTP( $data );
 			default:
