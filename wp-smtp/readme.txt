@@ -4,7 +4,7 @@ Donate link: https://solidwp.com/email
 Tags: wordpress smtp, email, email log, smtp
 Requires at least: 6.4
 Tested up to: 6.6.2
-Stable tag: 2.1.0
+Stable tag: 2.1.1
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -60,6 +60,7 @@ Currently, Solid Mail supports the following SMTP services:
 * MailGun
 * Brevo (formally Sendinblue)
 * Amazon SES
+* Postmark
 * Manual connection (connect to any SMTP email service provider)
 
 We are considering additional SMTP services for our roadmap. If you have specific recommendations that you’d like to see added, [contact us here](https://solidwp.com/contact).
@@ -125,6 +126,10 @@ Now your website email deliverability is SOLID with Solid Mail!
 3. See a comprehensive log of all emails sent from your WordPress website at a glance
 
 == Changelog ==
+
+= [2.1.1] 2024-10-16 =
+
+* Fix - Addressed an issue where the migration script was triggered unexpectedly during updates between version 2.0.0 and 2.1.0.
 
 = [2.1.0] 2024-10-09 =
 

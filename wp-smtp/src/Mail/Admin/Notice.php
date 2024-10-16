@@ -2,6 +2,8 @@
 
 namespace SolidWP\Mail\Admin;
 
+use SolidWP\Mail\Migration\MigrationVer210;
+
 /**
  * Class Notice
  *
@@ -25,6 +27,12 @@ class Notice {
 	 */
 	private string $migration_error_flag = 'solid_mail_notice_migration_error_dismissed';
 
+	/**
+	 * Meta key to store the dismissed state of the solid 2.0.0 to 2.1.0 error.
+	 *
+	 * @var string
+	 */
+	private string $migration_200_211_error_flag = 'solid_mail_notice_migration_200_211_error_dismissed';
 
 	/**
 	 * Handles the AJAX request to dismiss the admin notice.
@@ -42,12 +50,66 @@ class Notice {
 		$flag = sanitize_text_field( $_POST['flag'] ?? '' );
 
 		// make sure the flag is allowed before saving.
-		if ( ! empty( $flag ) && in_array( $flag, [ $this->new_ownership_flag, $this->migration_error_flag ], true ) ) {
+		if ( ! empty( $flag )
+		     && in_array(
+			     $flag,
+			     [
+				     $this->new_ownership_flag,
+				     $this->migration_error_flag,
+				     $this->migration_200_211_error_flag
+			     ],
+			     true
+		     )
+		) {
 			update_user_meta( get_current_user_id(), $flag, true );
 			wp_send_json_success();
 		}
 
 		wp_send_json_error();
+	}
+
+	/**
+	 * Displays the admin notice for the migration issue in version 2.1.0.
+	 *
+	 * @return void
+	 */
+	public function maybe_display_notice_200_211_error() {
+		// Only admin should see this.
+		if ( ! current_user_can( 'manage_options' ) ) {
+			return;
+		}
+
+		// Get the stored migration error message.
+		$flag = get_option( MigrationVer210::FLAG_NAME, '' );
+
+		// Check if the user has dismissed the notice or if there is no error.
+		if ( 'yes' !== $flag || get_user_meta( get_current_user_id(), $this->migration_200_211_error_flag, true ) ) {
+			return;
+		}
+
+		$nonce = wp_create_nonce( 'dismiss_solid_mail_notice' );
+		?>
+        <div class="notice notice-error is-dismissible solid-mail-migration-error-notice">
+            <p>
+	            <?php echo sprintf(
+		            __(
+			            'There was an issue in version 2.1.0 which affected a small subset of users by erroneously deactivating the Active Connection toggle on the Email Connections Page at Solid Mail → Solid Mail. Please ensure that your active connection is still correctly enabled. <a href="%s">Verify your settings</a>', 'LION'
+		            ), admin_url( 'admin.php?page=solidwp-mail#/providers/edit/legacy_smtp_id' ) )
+	            ?>
+            </p>
+        </div>
+        <script type="text/javascript">
+			( function ( $ ) {
+				$( document ).on( 'click', '.solid-mail-migration-error-notice .notice-dismiss', function () {
+					$.post( ajaxurl, {
+						action: 'dismiss_solid_mail_notice',
+						_wpnonce: '<?php echo $nonce; ?>',
+						flag: '<?php echo $this->migration_200_211_error_flag; ?>'
+					} );
+				} );
+			} )( jQuery );
+        </script>
+		<?php
 	}
 
 	/**

@@ -76,7 +76,7 @@ class MigrationVer130 extends AbstractController {
 	public function migration() {
 		$version = get_option( self::OPTION_VERSION_NAME, '' );
 
-		if ( version_compare( $version, WPSMTP_VERSION, '>=' ) ) {
+		if ( version_compare( $version, '2.0.0', '>=' ) ) {
 			return;
 		}
 
@@ -84,6 +84,8 @@ class MigrationVer130 extends AbstractController {
 		$smtp = get_option( 'wp_smtp_options' );
 
 		if ( empty( $smtp['from'] ) || empty( $smtp['host'] ) ) {
+			// if the condition not met, that can be newly install.
+			update_option( self::OPTION_VERSION_NAME, WPSMTP_VERSION );
 			return;
 		}
 
