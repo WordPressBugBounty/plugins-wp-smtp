@@ -1,19 +1,16 @@
 <?php
+
 /**
  * The API provided by a Builder that can be re-initialized.
  *
  * @package SolidWP\Mail\lucatume\DI52\Builders
- *
- * @license GPL-3.0
- * Modified using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace SolidWP\Mail\lucatume\DI52\Builders;
 
 /**
  * Interface ReinitializableBuilderInterface
  *
- * @package SolidWP\Mail\lucatume\DI52\Builders
+ * @package \SolidWP\Mail\lucatume\DI52\Builders
  */
 interface ReinitializableBuilderInterface
 {

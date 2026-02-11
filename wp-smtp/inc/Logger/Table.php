@@ -3,15 +3,19 @@ namespace WPSMTP\Logger;
 
 class Table {
 
-	public static $name;
-
-	public static function install() {
-
+	public static function get_name(): string {
 		global $wpdb;
 
-		self::$name = $wpdb->prefix . 'wpsmtp_logs';
+		return $wpdb->prefix . 'wpsmtp_logs';
+	}
 
-		$sql = 'CREATE TABLE `' . self::$name . "` (
+	public static function install(): void {
+		global $wpdb;
+
+		$table_name = self::get_name();
+		$collate    = $wpdb->get_charset_collate();
+
+		$sql = "CREATE TABLE `{$table_name}` (
 				`mail_id` INT NOT NULL AUTO_INCREMENT,
 				`connection_id` VARCHAR(32) NULL,
 				`timestamp` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -24,7 +28,7 @@ class Table {
 				`content_type` VARCHAR(32) NOT NULL DEFAULT 'text/plain',
 				`error` TEXT NULL,
 				PRIMARY KEY  (`mail_id`)
-			) DEFAULT CHARACTER SET = utf8 DEFAULT COLLATE utf8_general_ci;";
+			) {$collate};";
 
 		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 		dbDelta( $sql );

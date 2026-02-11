@@ -23,7 +23,7 @@ class MigrationVer221 {
 	protected ProvidersRepository $providers_repository;
 
 	/**
-	 * Constructor for MigrationVer220.
+	 * Constructor for MigrationVer221.
 	 *
 	 * Initializes the migration class and sets up dependencies.
 	 *
@@ -34,7 +34,7 @@ class MigrationVer221 {
 	}
 
 	/**
-	 * Migration logic for version 2.2.0.
+	 * Migration logic for version 2.2.1.
 	 *
 	 * Adds 'is_default' property to all existing providers.
 	 * Sets is_default to true for the currently active provider, false for all others.
@@ -53,7 +53,7 @@ class MigrationVer221 {
 		// Upgrade logs table
 		Table::install();
 
-		$logsTableName = Table::$name;
+		$logsTableName = Table::get_name();
 
 		// phpcs:ignore WordPress.DB
 		$wpdb->query( "UPDATE $logsTableName SET content_type = 'text/html' WHERE headers LIKE '%html%'" );

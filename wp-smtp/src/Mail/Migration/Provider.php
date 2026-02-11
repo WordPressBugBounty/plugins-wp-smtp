@@ -40,6 +40,7 @@ class Provider extends Service_Provider {
 		$this->container->get( MigrationVer130::class )->migration( $version );
 		$this->container->get( MigrationVer210::class )->migration( $version );
 		$this->container->get( MigrationVer221::class )->migration( $version );
+		$this->container->get( MigrationVer223::class )->migration( $version );
 
 		update_option( self::OPTION_VERSION_NAME, WPSMTP_VERSION );
 	}

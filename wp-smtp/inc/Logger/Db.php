@@ -47,6 +47,7 @@ class Db {
 	public function update( $data, $where = [] ): void {
 		$prepared = $this->prepare_for_database( $data );
 
+
 		$this->db->update(
 			$this->table,
 			$prepared,
@@ -77,11 +78,21 @@ class Db {
 		}
 
 		$headers = $this->parse_headers( $headers );
+		$subject = $this->db->strip_invalid_text_for_column(
+			Table::get_name(),
+			'subject',
+			(string) ( $raw['subject'] ?? '' )
+		);
+		$message = $this->db->strip_invalid_text_for_column(
+			Table::get_name(),
+			'message',
+			(string) ( $raw['message'] ?? '' )
+		);
 
 		return [
 			'to'            => wp_json_encode( $to ),
-			'subject'       => (string) ( $raw['subject'] ?? '' ),
-			'message'       => (string) ( $raw['message'] ?? '' ),
+			'subject'       => is_string( $subject ) ? $subject : __( 'Subject could not be saved due to invalid characters.', 'LION' ),
+			'message'       => is_string( $message ) ? $message : __( 'Message could not be saved due to invalid characters.', 'LION' ),
 			'headers'       => wp_json_encode( $headers ),
 			'content_type'  => (string) ( $raw['content_type'] ?? '' ),
 			'error'         => isset( $raw['error'] ) ? sanitize_text_field( $raw['error'] ) : '',

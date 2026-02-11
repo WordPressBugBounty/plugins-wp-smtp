@@ -6,11 +6,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Plugin Name: Solid Mail
  * Description: Solid Mail can help us to send emails via SMTP instead of the PHP mail() function and email logger built-in.
- * Version: 2.2.2
+ * Version: 2.2.3
  * Author: SolidWP
  * Author URI: https://www.solidwp.com/
- * Text Domain: wp-smtp
- * Domain Path: /lang
  * License: GPLv3 or Later
  *
  * Copyright 2012-2022 Yehuda Hassine yehudahas@gmail.com
@@ -41,7 +39,7 @@ define( 'WPSMTP_PATH', plugin_dir_path( WPSMTP__FILE__ ) );
 define( 'WPSMTP_URL', plugins_url( '/', WPSMTP__FILE__ ) );
 define( 'WPSMTP_ASSETS_PATH', WPSMTP_PATH . 'assets/' );
 define( 'WPSMTP_ASSETS_URL', WPSMTP_URL . 'assets/' );
-define( 'WPSMTP_VERSION', '2.2.2' );
+define( 'WPSMTP_VERSION', '2.2.3' );
 
 require_once __DIR__ . '/vendor/autoload.php';
 require_once __DIR__ . '/vendor/vendor-prefixed/autoload.php';
@@ -56,7 +54,6 @@ class WP_SMTP {
 		register_activation_hook( __FILE__, [ $this, 'wp_smtp_activate' ] );
 
 		add_filter( 'plugin_action_links', [ $this, 'wp_smtp_settings_link' ], 10, 2 );
-		add_action( 'init', [ $this, 'load_textdomain' ] );
 		add_action( 'wp_loaded', [ $this, 'load_admin_requirements' ], 16 );
 
 		// add the new code bootstrap.
@@ -79,10 +76,6 @@ class WP_SMTP {
 		// @TODO: should we init solid 'solid_mail_settings' here?
 		\WPSMTP\Logger\Table::install();
 		// @TODO: table should be deleted on uninstalling
-	}
-
-	public function load_textdomain() {
-		load_plugin_textdomain( 'wp-smtp', false, dirname( plugin_basename( __FILE__ ) ) . '/lang' );
 	}
 
 	public function wp_smtp_settings_link( $action_links, $plugin_file ) {

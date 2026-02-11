@@ -1,19 +1,16 @@
 <?php
+
 /**
  * The API provided by each builder.
  *
  * @package lucatume\DI52
- *
- * @license GPL-3.0
- * Modified using {@see https://github.com/BrianHenryIE/strauss}.
  */
-
 namespace SolidWP\Mail\lucatume\DI52\Builders;
 
 /**
  * Interface BuilderInterface
  *
- * @package SolidWP\Mail\lucatume\DI52\Builders
+ * @package \SolidWP\Mail\lucatume\DI52\Builders
  */
 interface BuilderInterface
 {
